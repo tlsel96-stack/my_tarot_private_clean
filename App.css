@@ -1,0 +1,77 @@
+body {
+  background-color: #f8f3ef;
+  font-family: Pretendard, sans-serif;
+  color: #222;
+}
+
+.container {
+  text-align: center;
+  padding: 40px;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.form input,
+.form select {
+  width: 260px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.start-btn {
+  background-color: #6b5bff;
+  color: #fff;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.tarot-section {
+  margin-top: 40px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 6px;
+  justify-items: center;
+  margin-top: 10px;
+}
+
+.card {
+  background-color: white;
+  border: 1px solid #bbb;
+  width: 35px;
+  height: 50px;
+  border-radius: 4px;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.card.selected {
+  background-color: #6b5bff;
+  color: white;
+}
+
+.reading-page {
+  text-align: center;
+  padding: 50px;
+}
+
+.reading-box {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  line-height: 1.6;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

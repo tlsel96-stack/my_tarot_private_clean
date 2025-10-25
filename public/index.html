@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💫 나만의 드림투유 타로</title>
+  <style>
+    body {
+      font-family: "Pretendard", sans-serif;
+      background-color: #f6f2ee;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      color: #3a2e28;
+    }
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      background: #f0e4d7;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 5px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #3a2e28;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: #3a2e28;
+      color: white;
+    }
+    textarea, select, input {
+      width: 100%;
+      margin: 5px 0 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #3a2e28;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 10px;
+      transition: opacity 0.2s ease;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #result, #replyResult {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      white-space: pre-line;
+      min-height: 50px;
+    }
+    .loading {
+      text-align: center;
+      font-style: italic;
+      color: #7a6f66;
+      animation: blink 1.5s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔮 나만의 드림투유 타로</h1>
+
+  <div class="tab-container">
+    <button id="mainTab" class="tab-btn active">🌙 메인 리딩</button>
+    <button id="replyTab" class="tab-btn">💬 대댓글 리딩</button>
+  </div>
+
+  <!-- 메인 타로 -->
+  <div id="tarotSection">
+    <label>주제 선택</label>
+    <select id="topic">
+      <option value="연애">연애</option>
+      <option value="재회">재회</option>
+      <option value="이직">이직</option>
+      <option value="금전">금전</option>
+      <option value="결혼">결혼</option>
+      <option value="일반">일반</option>
+    </select>
+
+    <label>이름</label>
+    <input type="text" id="name" placeholder="예: 이다은" />
+
+    <label>상대 이름 (선택)</label>
+    <input type="text" id="partner" placeholder="예: 김민수" />
+
+    <label>질문</label>
+    <input type="text" id="question" placeholder="예: 올해 연애운은 어때?" />
+
+    <label>선택 카드</label>
+    <div style="display:flex; gap:5px;">
+      <select id="card1"></select>
+      <select id="card2"></select>
+      <select id="card3"></select>
+    </div>
+
+    <button id="randomCards">🔀 랜덤 3장 뽑기</button>
+    <button id="generate">✨ 리딩 생성</button>
+    <button id="copyResult">📋 결과 복사</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- 대댓글 리딩 -->
+  <div id="replySection" style="display:none;">
+    <h2>💬 대댓글 리딩 생성</h2>
+    <p>스레드나 인스타 댓글 내용을 붙여넣으면 리딩을 만들어줄게!</p>
+
+    <textarea id="replyInput" placeholder="예: 000610 양력 여자" rows="3"></textarea>
+    <select id="replyCategory">
+      <option value="연애">연애 관련</option>
+      <option value="재회">재회 관련</option>
+      <option value="이직">이직 / 진로</option>
+      <option value="감정">감정 / 고민</option>
+    </select>
+
+    <button id="replyGenerate">✨ 대댓글 리딩 생성</button>
+    <button id="replyCopy">📋 결과 복사</button>
+    <div id="replyResult"></div>
+  </div>
+
+  <script>
+    // 카드 목록 생성
+    const cardSelects = [document.getElementById("card1"), document.getElementById("card2"), document.getElementById("card3")];
+    for (let i = 1; i <= 22; i++) {
+      cardSelects.forEach(sel => {
+        const opt = document.createElement("option");
+        opt.value = `${i}`;
+        opt.textContent = `${i}번 카드`;
+        sel.appendChild(opt);
+      });
+    }
+
+    // 탭 전환
+    const mainTab = document.getElementById("mainTab");
+    const replyTab = document.getElementById("replyTab");
+    mainTab.addEventListener("click", () => {
+      mainTab.classList.add("active");
+      replyTab.classList.remove("active");
+      document.getElementById("tarotSection").style.display = "block";
+      document.getElementById("replySection").style.display = "none";
+    });
+    replyTab.addEventListener("click", () => {
+      replyTab.classList.add("active");
+      mainTab.classList.remove("active");
+      document.getElementById("tarotSection").style.display = "none";
+      document.getElementById("replySection").style.display = "block";
+    });
+
+    // 🎴 랜덤 카드 3장 뽑기
+    document.getElementById("randomCards").addEventListener("click", () => {
+      const cards = Array.from({ length: 22 }, (_, i) => i + 1);
+      const selected = [];
+      while (selected.length < 3) {
+        const random = cards[Math.floor(Math.random() * cards.length)];
+        if (!selected.includes(random)) selected.push(random);
+      }
+      cardSelects.forEach((sel, i) => sel.value = selected[i]);
+      alert(`뽑힌 카드: ${selected.join(", ")}`);
+    });
+
+    // ✨ 메인 리딩 생성
+    document.getElementById("generate").addEventListener("click", async () => {
+      const name = document.getElementById("name").value;
+      const partner = document.getElementById("partner").value;
+      const topic = document.getElementById("topic").value;
+      const question = document.getElementById("question").value;
+      const cards = [
+        document.getElementById("card1").value,
+        document.getElementById("card2").value,
+        document.getElementById("card3").value,
+      ];
+
+      const resultBox = document.getElementById("result");
+      const button = document.getElementById("generate");
+      resultBox.innerHTML = '<div class="loading">🔮 리딩 중입니다... 잠시만 기다려줘!</div>';
+      button.disabled = true;
+
+      const res = await fetch("/api/tarot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, partner, topic, question, cards }),
+      });
+      const data = await res.json();
+
+      resultBox.innerText = data.result || "리딩 생성 실패!";
+      button.disabled = false;
+    });
+
+    // 📋 리딩 복사
+    document.getElementById("copyResult").addEventListener("click", async () => {
+      const text = document.getElementById("result").innerText;
+      if (!text) return alert("복사할 리딩 결과가 없습니다!");
+      await navigator.clipboard.writeText(text);
+      alert("리딩 결과가 복사되었어 💫");
+    });
+
+    // 💬 대댓글 리딩 생성
+    document.getElementById("replyGenerate").addEventListener("click", async () => {
+      const comment = document.getElementById("replyInput").value;
+      const category = document.getElementById("replyCategory").value;
+
+      const replyResult = document.getElementById("replyResult");
+      const replyBtn = document.getElementById("replyGenerate");
+      replyResult.innerHTML = '<div class="loading">🔮 리딩 중입니다... 잠시만 기다려줘!</div>';
+      replyBtn.disabled = true;
+
+      const res = await fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ comment, category }),
+      });
+      const data = await res.json();
+
+      replyResult.innerText = data.result || "리딩 생성 실패!";
+      replyBtn.disabled = false;
+    });
+
+    // 📋 대댓글 리딩 복사
+    document.getElementById("replyCopy").addEventListener("click", async () => {
+      const text = document.getElementById("replyResult").innerText;
+      if (!text) return alert("복사할 리딩 결과가 없습니다!");
+      await navigator.clipboard.writeText(text);
+      alert("대댓글 리딩이 복사되었어 💫");
+    });
+  </script>
+</body>
+</html>
