@@ -1,5 +1,8 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: "./", // ✅ 상대 경로로 빌드하도록 설정 (Render용)
+  plugins: [react()],
+  base: './', // ✅ 상대 경로로 설정 (Render 배포 필수)
 });
