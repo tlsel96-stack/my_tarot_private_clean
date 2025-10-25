@@ -1,7 +1,7 @@
 // src/utils/openai.js
 export async function getTarotResult(promptText) {
   // ✅ 여기에 본인 OpenAI API 키를 직접 입력하세요
-  const apiKey = "sk-여기에_너의_API_키_붙여넣기";
+ const apiKey = import.meta.env.VITE_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
