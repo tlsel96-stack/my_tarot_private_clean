@@ -4,47 +4,46 @@
     <meta charset="UTF-8" />
     <title>로그인 | DreamTarot</title>
 
-    <!-- Memberstack 연결 -->
-    <script src="https://cdn.memberstack.com/scripts/v1/memberstack.js"
-      data-memberstack-id="cmh8ek3zi00dc0sv6gcex4ji7"></script>
+    <!-- Memberstack 연결 코드 (같은 ID 사용) -->
+    <script src="https://cdn.memberstack.com/scripts/v1/memberstack.js" data-memberstack-id="cmh8ek3zi00dc0sv6gcex4ji77"></script>
 
     <style>
       body {
-        background: #f9f4ed;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
         font-family: 'Pretendard', sans-serif;
+        text-align: center;
+        background: #f7efe5;
+        color: #333;
+        padding-top: 100px;
       }
-      h2 {
-        margin-bottom: 12px;
-        color: #222;
+      .box {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 40px;
+        display: inline-block;
       }
-      p {
-        margin-bottom: 24px;
-        color: #555;
+      h1 {
+        margin-bottom: 20px;
       }
       button {
-        margin: 6px;
-        padding: 10px 20px;
+        background: #f1b45b;
         border: none;
-        border-radius: 6px;
-        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 8px;
         font-size: 16px;
+        margin: 5px;
+        cursor: pointer;
       }
-      .login { background: #222; color: #fff; }
-      .signup { background: #f2b95f; color: #222; }
     </style>
   </head>
 
   <body>
-    <h2>🔮 DreamTarot 로그인</h2>
-    <p>회원 전용 서비스입니다. 로그인 후 이용해주세요.</p>
-
-    <!-- Memberstack 모달 -->
-    <button data-ms-modal="login" class="login">로그인</button>
-    <button data-ms-modal="signup" class="signup">회원가입</button>
+    <div class="box">
+      <h1>🔒 DreamTarot 회원 전용 페이지</h1>
+      <p>접근하려면 로그인 또는 회원가입이 필요합니다.</p>
+      <br />
+      <button data-ms-modal="signup">회원가입</button>
+      <button data-ms-modal="login">로그인</button>
+    </div>
   </body>
 </html>
