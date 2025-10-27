@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <title>DreamTarot</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DreamTarot</title>
 
-  <!-- ✅ Memberstack v2 DOM SDK 연결 -->
-  <script async src="https://api.memberstack.com/static/memberstack.js?custom"
-    data-memberstack-id="cmh8ek3zi00dc0sv6gcex4ji7"></script>
-</head>
+    <!-- ✅ Memberstack 연결 코드 -->
+    <script src="https://cdn.memberstack.com/scripts/v1/memberstack.js" data-memberstack-id="cmh8ek3zi00dc0sv6gcex4ji77"></script>
+  </head>
 
-<body data-ms-content="main-tarot-page">
-  <div id="root"></div>
+  <!-- ✅ Gated Content (회원만 접근 가능) -->
+  <body data-ms-content="main-tarot-page">
+    <div id="root"></div>
 
-  <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
 
-  <div style="margin-top: 20px; text-align:center;">
-    <button data-ms-modal="signup">회원가입</button>
-    <button data-ms-modal="login">로그인</button>
-  </div>
-</body>
+    <!-- 테스트용 로그인/회원가입 버튼 -->
+    <div style="margin-top: 20px; text-align:center;">
+      <button data-ms-modal="signup">회원가입</button>
+      <button data-ms-modal="login">로그인</button>
+      <button data-ms-action="logout">로그아웃</button>
+    </div>
+  </body>
 </html>
