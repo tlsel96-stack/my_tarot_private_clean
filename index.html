@@ -4,16 +4,18 @@
   <meta charset="UTF-8" />
   <title>DreamTarot</title>
 
-  <!-- ✅ Memberstack 연결 코드 -->
-  <script src="https://cdn.memberstack.com/scripts/v1/memberstack.js" 
-          data-memberstack-id="app_cmh8ek3zi00dc0sv6gcex4ji7"></script>
+  <!-- ✅ Memberstack 연결 코드 (v1) -->
+  <script 
+    src="https://cdn.memberstack.com/scripts/v1/memberstack.js"
+    data-memberstack-id="app_cmh8ek3zi00dc0sv6gcex4ji7">
+  </script>
 </head>
 
 <body data-ms-content="main-tarot-page">
   <div id="root"></div>
   <script type="module" src="./src/main.jsx"></script>
 
-  <!-- ✅ 테스트용 회원가입/로그인 버튼 -->
+  <!-- ✅ 로그인 테스트용 버튼 -->
   <div style="margin-top: 20px; text-align:center;">
     <button data-ms-modal="signup">회원가입</button>
     <button data-ms-modal="login">로그인</button>
